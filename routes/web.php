@@ -29,3 +29,8 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::get('/background-job', function () {
+    runBackgroundJob('JobService', 'execute', ['Hello', 'World']);
+    return response()->json(['status' => 'Job started in background']);
+})->name("background-job");
