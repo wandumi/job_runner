@@ -25,3 +25,17 @@ Create .env file and add a variable called MAX_RETRIES and set the limit of the 
 I also used the following Package to enable .env in the PHP file
 
 composer require vlucas/phpdotenv
+
+## TASK 4: Security Requirements
+
+In order to ensure that only pre-approved classes can run, this assignment created a secure PHP Background Job Runner that verifies and cleans user input. The script's configurable retry mechanism (MAX_RETRIES) is one of the environment variables it uses.
+
+In addition to recording errors in a separate log file (background_jobs_errors.log), it has strong error handling and logs all job statuses (running, completed, and failed) with timestamps. Unauthorized class attempts are prohibited, and malicious code execution is prevented by input sanitization. The system keeps thorough logs for debugging and gives the user direct feedback through console output.
+
+To test the feature you can run the following on the CMD mainly bash or git bash
+
+php execute.php JobServices execute "Test" - wont work due to wrong allowed class
+
+php execute.php JobService execute "Test" - wont work due to parameter/arguments
+
+php execute.php JobService execute "Test" "Test" - success
