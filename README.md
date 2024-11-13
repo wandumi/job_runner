@@ -34,5 +34,7 @@ The retry mechanism allows the job to be retried up to 5 times
 
 Add these in the .env when when you clone the files, they are used on the running of the RunBackgroundJob.
 
+```bash
 QUEUE_RETRY_ATTEMPTS=5
 QUEUE_RETRY_BACKOFF=15
+```
