@@ -12,6 +12,7 @@ class RunBackgroundController extends Controller
         $data = ['message' => 'This is a background job!'];
 
         runBackgroundJob(RunBackgroundJob::class, [$data]);
+        //  If you want to test the authorised Classes, 
 
         return redirect('/')->with('success', 'Job executed in the background!');
 
