@@ -13,7 +13,24 @@
 
     <!-- Styles -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
 
+            const successAlert = document.getElementById('success-alert');
+            const errorAlert = document.getElementById('error-alert');
+
+            if (successAlert) {
+                successAlert.classList.add('transition', 'duration-1000');
+                setTimeout(() => successAlert.remove(), 3000);
+            }
+
+            if (errorAlert) {
+                errorAlert.classList.add('transition', 'duration-1000');
+                setTimeout(() => errorAlert.remove(), 5000);
+            }
+
+        });
+    </script>
 </head>
 
 <body class="antialiased">
@@ -38,6 +55,18 @@
         @endif
 
         <div class="max-w-7xl mx-auto p-6 lg:p-8">
+
+            @if (session('success'))
+                <div id="success-alert" class="mb-4 p-4 rounded-lg bg-green-100 border border-green-300 text-green-800">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div id="error-alert" class="mb-4 p-4 rounded-lg bg-red-100 border border-red-300 text-red-800">
+                    {{ session('error') }}
+                </div>
+            @endif
 
             <p class="dark:text-white text-5xl pb-5">Welcome to Wandumi Sichali Assignment</p>
             <a href="{{ route('background-job') }}"
