@@ -38,3 +38,12 @@ Add these in the .env when when you clone the files, they are used on the runnin
 QUEUE_RETRY_ATTEMPTS=5
 QUEUE_RETRY_BACKOFF=15
 ```
+
+## TASK 4: Security Requirements
+
+I added security checks to the runBackgroundJob function by verifying and cleaning the job class name to stop unwanted code execution. Only authorized job classes are allowed to execute in the background thanks to a whitelist.
+
+Background_jobs_errors.log records any attempts to use an invalid or illegal job class for monitoring purposes. By using this method, malicious input is prevented and background execution is limited to trustworthy jobs.
+
+On this task, if you can add the a job that is not validated meaning part of the array in execute.php.
+
