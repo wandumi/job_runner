@@ -13,3 +13,15 @@ To run the job, make sure you're in the JobRunner folder as follows.
 c/xampp/htdocs/job_runner/App/JobRunner (main)
 
 php execute.php JobService execute "Hello" "World"
+
+## TASK 3: Feature Requirements
+
+PHP's Background Job Runner was implemented in this task, which runs jobs in the background and logs their status (running, completed, or failed) together with timestamps. It has a configurable retry mechanism for unsuccessful jobs, strong error handling, and independent error reporting in background_jobs_errors.log.
+
+The system is made to function flawlessly in both Unix-based and Windows-based systems, guaranteeing dependable and constant job execution.
+
+Create .env file and add a variable called MAX_RETRIES and set the limit of the entries
+
+I also used the following Package to enable .env in the PHP file
+
+composer require vlucas/phpdotenv
