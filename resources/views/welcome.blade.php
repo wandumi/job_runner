@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <title>Munandi</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -68,7 +68,7 @@
                 </div>
             @endif
 
-            <p class="dark:text-white text-5xl pb-5">Welcome to Wandumi Sichali Assignment</p>
+            <p class="dark:text-white text-5xl pb-5">Welcome to My Assignment</p>
             <a href="{{ route('background-job') }}"
                 class="inline-block px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:bg-blue-500 dark:hover:bg-blue-600">
                 Run Job

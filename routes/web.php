@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RunBackgroundController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,19 +33,4 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 
-Route::get('/background-job', function () {
-
-    if (Cache::has('background_job_running')) {
-        return redirect('/')->with('error', 'Background job is already running.');
-    }
-
-    Cache::put('background_job_running', true, 300); 
-
-    try {
-   
-        runBackgroundJob('JobService', 'execute', ['Hello', 'World']);
-        return redirect('/')->with('success', 'Job started in background');
-    } finally {
-        Cache::forget('background_job_running');
-    }
-})->name("background-job");
+Route::get('/background-job', [RunBackgroundController::class, 'runJob'])->name("background-job");
