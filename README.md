@@ -4,38 +4,24 @@ I am experienced in developing web applications from the ground up utilizing a n
 
 ## TASK 1: Job Runner in Job Runner Folder
 
-The given PHP code implements a Background Job Runner mechanism. It enables you to invoke any defined class method with input parameters from the command line. It makes an instance of the specified class, executes the method, and records the results in a log file.
+The PHP code implements a Background Job Runner that enables executing predefined class methods with specified input parameters via the command line. It creates an instance of the target class, executes the method, and logs the job data (class, method, parameters) along with the result status (success or failure). This system handles background tasks effectively and logs detailed information for each job's execution. The job runner is compatible with both Unix and Windows systems and uses the **vlucas/phpdotenv** package for environment configuration, including setting a retry limit (`MAX_RETRIES`). To execute jobs, navigate to the JobRunner folder and use the following command format:
 
-The log contains task data (class, method, and parameters) and indicates if the execution was successful or unsuccessful. This allows the system to perform background operations and keep track of each job's outcome.
-
-To run the job, make sure you're in the JobRunner folder as follows.
-
-c/xampp/htdocs/job_runner/App/JobRunner (main)
-
+```bash
 php execute.php JobService execute "Hello" "World"
+```
 
-## TASK 3: Feature Requirements
+The job runner enhances security by only allowing pre-approved classes and sanitizing inputs to prevent unauthorized or malicious execution. It features strong error handling, logs errors in a separate file (`background_jobs_errors.log`), and tracks job statuses (running, completed, or failed) with timestamps for debugging. Example test commands include:
 
-PHP's Background Job Runner was implemented in this task, which runs jobs in the background and logs their status (running, completed, or failed) together with timestamps. It has a configurable retry mechanism for unsuccessful jobs, strong error handling, and independent error reporting in background_jobs_errors.log.
+```bash
+php execute.php JobServices execute "Test"       # Fails due to unauthorized class
+php execute.php JobService execute "Test"        # Fails due to missing parameters
+php execute.php JobService execute "Test" "Test" # Success
+```
 
-The system is made to function flawlessly in both Unix-based and Windows-based systems, guaranteeing dependable and constant job execution.
+These tests demonstrate how the system handles different input scenarios, ensuring only valid, authorized commands are executed.
 
-Create .env file and add a variable called MAX_RETRIES and set the limit of the entries
+## TASK 2: Global function for Job Execution
 
-I also used the following Package to enable .env in the PHP file
+I developed the `runBackgroundJob` global function in Laravel, which enables us to execute operations in the background on both Windows and Unix platforms. A button on the homepage initiates the job, which executes without requiring the user to wait.
 
-composer require vlucas/phpdotenv
-
-## TASK 4: Security Requirements
-
-In order to ensure that only pre-approved classes can run, this assignment created a secure PHP Background Job Runner that verifies and cleans user input. The script's configurable retry mechanism (MAX_RETRIES) is one of the environment variables it uses.
-
-In addition to recording errors in a separate log file (background_jobs_errors.log), it has strong error handling and logs all job statuses (running, completed, and failed) with timestamps. Unauthorized class attempts are prohibited, and malicious code execution is prevented by input sanitization. The system keeps thorough logs for debugging and gives the user direct feedback through console output.
-
-To test the feature you can run the following on the CMD mainly bash or git bash
-
-php execute.php JobServices execute "Test" - wont work due to wrong allowed class
-
-php execute.php JobService execute "Test" - wont work due to parameter/arguments
-
-php execute.php JobService execute "Test" "Test" - success
+The user is taken back to the homepage after clicking, and Laravel's queue system keeps the job running in the background.
