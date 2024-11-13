@@ -25,3 +25,14 @@ These tests demonstrate how the system handles different input scenarios, ensuri
 I developed the `runBackgroundJob` global function in Laravel, which enables us to execute operations in the background on both Windows and Unix platforms. A button on the homepage initiates the job, which executes without requiring the user to wait.
 
 The user is taken back to the homepage after clicking, and Laravel's queue system keeps the job running in the background.
+
+## TASK 3: Feature Requirements
+
+I implemented a RunBackgroundJob class in Laravel with enhanced error handling, logging, and a configurable retry mechanism. It logs job status and errors separately, using background_jobs.log and background_jobs_errors.log.
+
+The retry mechanism allows the job to be retried up to 5 times
+
+Add these in the .env when when you clone the files, they are used on the running of the RunBackgroundJob.
+
+QUEUE_RETRY_ATTEMPTS=5
+QUEUE_RETRY_BACKOFF=15

@@ -106,4 +106,10 @@ return [
         'table' => 'failed_jobs',
     ],
 
+    'jobs' => [
+        'retry_attempts' => env('QUEUE_RETRY_ATTEMPTS', 5),
+        'retry_backoff' => env('QUEUE_RETRY_BACKOFF', 15),
+    ],
+
+
 ];
