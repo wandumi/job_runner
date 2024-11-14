@@ -4,7 +4,9 @@ I am experienced in developing web applications from the ground up utilizing a n
 
 ## TASK 1: Job Runner in Job Runner Folder
 
-The PHP code implements a Background Job Runner that enables executing predefined class methods with specified input parameters via the command line. It creates an instance of the target class, executes the method, and logs the job data (class, method, parameters) along with the result status (success or failure). This system handles background tasks effectively and logs detailed information for each job's execution. The job runner is compatible with both Unix and Windows systems and uses the **vlucas/phpdotenv** package for environment configuration, including setting a retry limit (`MAX_RETRIES`). To execute jobs, navigate to the JobRunner folder and use the following command format:
+The PHP code implements a Background Job Runner that enables executing predefined class methods with specified input parameters via the command line. It creates an instance of the target class, executes the method, and logs the job data (class, method, parameters) along with the result status (success or failure).
+
+This system handles background tasks effectively and logs detailed information for each job's execution. The job runner is compatible with both Unix and Windows systems and uses the **vlucas/phpdotenv** package for environment configuration, including setting a retry limit (`MAX_RETRIES`). To execute jobs, navigate to the JobRunner folder and use the following command format:
 
 ```bash
 php execute.php JobService execute "Hello" "World"
@@ -47,3 +49,48 @@ Background_jobs_errors.log records any attempts to use an invalid or illegal job
 
 On this task, if you can add the a job that is not validated meaning part of the array in execute.php.
 
+## Documentation and Testing
+
+Start the queue worker using
+
+```bash
+`php artisan queue:work --queue=high,low`
+```
+
+to fully test the `runBackgroundJob` function. You can observe how task priorities are controlled by using this command, which instructs Laravel to process high-priority jobs before handling low-priority ones. Use a legitimate job class, such as `RunBackgroundJob`, to test a typical job execution. Use `runBackgroundJob
+
+```bash
+(\App\Jobs\RunBackgroundJob::class, ['message' => 'Test job')}
+```
+
+This invokes it, and then examine the logs to make sure the job begins, proceeds as planned, and ends without any issues.
+
+Then try running a job that isn't on the allowed list, like
+
+```bash
+`runBackgroundJob('App\Jobs\UnauthorizedJob', ['message' => 'Unauthorized test'))`,
+```
+
+The above code will test the security feature. The system should confirm that only whitelisted job classes can be executed by blocking this job and recording an error in `background_jobs_errors.log` storage folder.
+
+Update your `.env` file with
+
+```bash
+`QUEUE_RETRY_ATTEMPTS=3` and `QUEUE_RETRY_BACKOFF=10`
+```
+
+This will test the retry mechanism. Before marking the job as failed, make sure it is retried three times with a 10-second wait in between each attempt by making the `RunBackgroundJob` class throw an exception.
+
+Lastly, use
+
+```bash
+`RunBackgroundJob::dispatch(['message' => 'High priority'])->onQueue('high')`
+```
+
+to dispatch a high-priority job and
+
+```bash
+`RunBackgroundJob::dispatch(['message' => 'Low priority'])->onQueue('low')`
+```
+
+The above codes will test job priorities. Even though the high-priority job was dispatched later, the queue worker should handle it first. Verify the logs, on storage folder (`background_jobs.log` and `background_jobs_errors.log`) to make sure that all job statuses—including when they begin, end, retry, or fail—are accurately recorded. The function is dependable for usage in your Laravel application because this testing method verifies that it manages task execution, security checks, retries, and priorities as intended.
